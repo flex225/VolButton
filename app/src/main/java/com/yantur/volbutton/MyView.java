@@ -55,7 +55,7 @@ public class MyView extends View {
         canvas.drawText("100", getWidth() / 2 + 200, getHeight() / 2, paintText);
         canvas.save();
         canvas.rotate(degree, getWidth() / 2, getHeight() / 2);
-        canvas.drawLine(getWidth() / 2, getHeight() / 2, getWidth() / 2, (getHeight() / 2) + 120, paintLine);
+        canvas.drawCircle( getWidth() / 2, (getHeight() / 2) + 180,30, paintLine);
         canvas.restore();
     }
 
@@ -65,11 +65,14 @@ public class MyView extends View {
 
         switch (action) {
             case MotionEvent.ACTION_DOWN:
-                calculate(event);
-                Log.d("ART", String.valueOf(event.getX()));
-                Log.d("ART", String.valueOf(event.getY()));
-                invalidate();
-                return true;
+                if (touchInButton(event.getX(),event.getY()) ) {
+                    calculate(event);
+                    Log.d("ART", String.valueOf(event.getX()));
+                    Log.d("ART", String.valueOf(event.getY()));
+                    invalidate();
+                    return true;
+                }
+                return false;
             case MotionEvent.ACTION_MOVE:
                 Log.d("ART", String.valueOf(degree));
                 calculate(event);
@@ -84,7 +87,7 @@ public class MyView extends View {
         float x = event.getX() - centerX;
         float y = centerY - event.getY();
         float angle = (float) Math.toDegrees(Math.atan2(x, y)) + 180;
-        if (touchInButton(event.getX(),event.getY()) && angle >= 0 && angle <= 270) {
+        if (angle >= 0 && angle <= 270) {
             degree = angle;
         }
 
@@ -109,6 +112,6 @@ public class MyView extends View {
         float deltaX = centerX - x;
         float deltaY = centerY - y;
 
-        return 180 * 180 >= deltaX * deltaX + deltaY * deltaY;
+        return 200 * 200 >= deltaX * deltaX + deltaY * deltaY;
     }
 }
